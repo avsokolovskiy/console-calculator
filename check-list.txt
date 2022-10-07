@@ -1,0 +1,31 @@
+The user greeting is displayed after the run.
+The instruction is displayed.
+The Result of operation is displayed after all inputs and rounded to 3 decimals.
+The user farewell is displayed on exit.
+
+Validation for all incorrect inputs operand and valid error message is displayed.
+Validation for all incorrect inputs operator and valid error message is displayed.
+
+The addition of two decimal numbers.
+The addition of two integer numbers.
+The addition of two negative numbers.
+The addition of one positive and one negative number.
+
+The subtraction of two decimals numbers.
+The subtraction of two integer numbers.
+The subtraction of two negative numbers.
+The subtraction of one negative and one positive number.
+
+The multiplication of two decimal numbers.
+The multiplication of two integer numbers.
+The multiplication of two negative numbers.
+The multiplication of one negative and one positive number.
+
+The division of two decimal numbers.
+The division of two integer numbers.
+The division of two negative numbers.
+The division of one positive number and one integer number.
+The division of a number by zero.
+The division of a number by negative number.
+The division of zero by any number.
+
