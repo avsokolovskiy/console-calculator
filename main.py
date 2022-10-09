@@ -18,11 +18,13 @@ def get_operand(number):
         calc_stop(operand)
         try:
             float(operand)
-            break
         except:
             print('Not a number. Please enter a valid number')
-
-    return operand
+        else:
+            if operand.isdigit():
+                return int(operand)
+            else:
+                return float(operand)
 
 
 def get_operator():
@@ -38,9 +40,6 @@ def get_operator():
 
 
 def calculation(operand_1, operand_2, operator):
-    operand_1 = round(float(operand_1), 3)
-    operand_2 = round(float(operand_2), 3)
-
     if operator == '+':
         return operand_1 + operand_2
     elif operator == '-':
@@ -59,18 +58,16 @@ def calc_stop(flag):
 
 # Press the green button in the gutter to run the script.
 if __name__ == '__main__':
-    flag = True
     print_greetings()
     print_instruction()
-
-    while flag:
+    while True:
         print('----------------------------------------------------------')
         operand_1 = get_operand(1)
         operand_2 = get_operand(2)
         operator = get_operator()
-        if operand_2=='0' and operator=='/':
+        if operand_2 == '0' and operator == '/':
             print('Division by zero is prohibited.')
             continue
         else:
-            result = round(calculation(operand_1, operand_2, operator),3)
+            result = round(calculation(operand_1, operand_2, operator), 3)
             print('{} {} {} = {}'.format(operand_1, operator, operand_2, result))
