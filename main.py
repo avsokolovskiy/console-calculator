@@ -1,8 +1,12 @@
+"""Simple calculator"""
+import sys
 def print_greetings():
+    """Greetings function"""
     print('Hi pal! You are in the simple calculator 1.0.')
 
 
 def print_instruction():
+    """User manual function"""
     print('''
     Instruction: 
         1. Just follow the console prompts.
@@ -13,50 +17,56 @@ def print_instruction():
 
 
 def get_operand(number):
+    """Getting operand from user"""
     while True:
-        operand = input('Please input operand #{}: '.format(number))
+        operand = input(f'Please input operand #{number}: ')
         calc_stop(operand)
         try:
             float(operand)
-        except:
+        except TypeError:
             print('Not a number. Please enter a valid number')
         else:
             if operand.isdigit():
-                return int(operand)
+                res_operand = int(operand)
             else:
-                return float(operand)
+                res_operand = float(operand)
+            return res_operand
+
 
 
 def get_operator():
+    """Getting operator from user input"""
     while True:
-        operator = input('Please enter operator (supported operators +, -, *, /): ')
-        calc_stop(operator)
-        if operator == '+' or operator == '-' or operator == '*' or operator == '/':
+        usr_operator = input('Please enter operator (supported operators +, -, *, /): ')
+        calc_stop(usr_operator)
+        if usr_operator in ('+', '-', '*', '/'):
             break
-        else:
-            print('The operator " {} " is not supported'.format(operator))
+
+        print(f'The operator " {usr_operator} " is not supported')
 
     return operator
 
 
-def calculation(operand_1, operand_2, operator):
-    if operator == '+':
-        return operand_1 + operand_2
-    elif operator == '-':
-        return operand_1 - operand_2
-    elif operator == '*':
-        return operand_1 * operand_2
-    elif operator == '/':
-        return operand_1 / operand_2
+def calculation(operand_a, operand_b, akt_operator):
+    """Function to perform calculation"""
+    if akt_operator == '+':
+        calc_result = operand_a + operand_b
+    elif akt_operator == '-':
+        calc_result = operand_a - operand_b
+    elif akt_operator == '*':
+        calc_result = operand_a * operand_b
+    elif akt_operator == '/':
+        calc_result = operand_a / operand_b
+    return calc_result
 
 
 def calc_stop(flag):
+    """Function to exit calc"""
     if flag == "Q":
         print("Closing the simple calculator 1.0. See you!!!")
-        exit()
+        sys.exit()
 
 
-# Press the green button in the gutter to run the script.
 if __name__ == '__main__':
     print_greetings()
     print_instruction()
@@ -67,7 +77,6 @@ if __name__ == '__main__':
         operator = get_operator()
         if operand_2 == '0' and operator == '/':
             print('Division by zero is prohibited.')
-            continue
         else:
             result = round(calculation(operand_1, operand_2, operator), 3)
-            print('{} {} {} = {}'.format(operand_1, operator, operand_2, result))
+            print(f'{operand_1} {operator} {operand_2} = {result}')
