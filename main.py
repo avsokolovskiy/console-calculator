@@ -1,11 +1,13 @@
 """Simple calculator"""
 import sys
-def print_greetings():
+from typing import Union
+
+def print_greetings() -> None:
     """Greetings function"""
     print('Hi pal! You are in the simple calculator 1.0.')
 
 
-def print_instruction():
+def print_instruction() -> None:
     """User manual function"""
     print('''
     Instruction: 
@@ -16,14 +18,14 @@ def print_instruction():
     ''')
 
 
-def get_operand(number):
+def get_operand(number: str) -> Union[int, float]:
     """Getting operand from user"""
     while True:
         operand = input(f'Please input operand #{number}: ')
-        calc_stop(operand)
+        calc_stop(flag=operand)
         try:
             float(operand)
-        except TypeError:
+        except: # pylint: disable=bare-except
             print('Not a number. Please enter a valid number')
         else:
             if operand.isdigit():
@@ -34,20 +36,20 @@ def get_operand(number):
 
 
 
-def get_operator():
+def get_operator() -> str:
     """Getting operator from user input"""
     while True:
         usr_operator = input('Please enter operator (supported operators +, -, *, /): ')
-        calc_stop(usr_operator)
+        calc_stop(flag=usr_operator)
         if usr_operator in ('+', '-', '*', '/'):
             break
 
         print(f'The operator " {usr_operator} " is not supported')
 
-    return operator
+    return usr_operator
 
 
-def calculation(operand_a, operand_b, akt_operator):
+def calculation(operand_a, operand_b, akt_operator) -> Union[int, float]:
     """Function to perform calculation"""
     if akt_operator == '+':
         calc_result = operand_a + operand_b
@@ -60,7 +62,7 @@ def calculation(operand_a, operand_b, akt_operator):
     return calc_result
 
 
-def calc_stop(flag):
+def calc_stop(flag: str) -> None:
     """Function to exit calc"""
     if flag == "Q":
         print("Closing the simple calculator 1.0. See you!!!")
@@ -72,11 +74,11 @@ if __name__ == '__main__':
     print_instruction()
     while True:
         print('----------------------------------------------------------')
-        operand_1 = get_operand(1)
-        operand_2 = get_operand(2)
-        operator = get_operator()
-        if operand_2 == '0' and operator == '/':
+        oprnd_1 = get_operand(number=1)
+        oprnd_2 = get_operand(number=2)
+        oprtr = get_operator()
+        if oprnd_2 == '0' and oprtr == '/':
             print('Division by zero is prohibited.')
         else:
-            result = round(calculation(operand_1, operand_2, operator), 3)
-            print(f'{operand_1} {operator} {operand_2} = {result}')
+            result = round(calculation(operand_a=oprnd_1, operand_b=oprnd_2, akt_operator=oprtr), 3)
+            print(f'{oprnd_1} {oprtr} {oprnd_2} = {result}')
