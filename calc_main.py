@@ -1,6 +1,9 @@
 """Simple calculator"""
 import sys
-from typing import Union
+from typing import TypeVar
+
+Typecalc = TypeVar('Typecalc', int, float)
+
 
 def print_greetings() -> None:
     """Greetings function"""
@@ -18,14 +21,14 @@ def print_instruction() -> None:
     ''')
 
 
-def get_operand(number: str) -> Union[int, float]:
+def get_operand(number: str) -> Typecalc:
     """Getting operand from user"""
     while True:
         operand = input(f'Please input operand #{number}: ')
         calc_stop(flag=operand)
         try:
             float(operand)
-        except: # pylint: disable=bare-except
+        except ValueError:
             print('Not a number. Please enter a valid number')
         else:
             if operand.isdigit():
@@ -33,7 +36,6 @@ def get_operand(number: str) -> Union[int, float]:
             else:
                 res_operand = float(operand)
             return res_operand
-
 
 
 def get_operator() -> str:
@@ -49,8 +51,9 @@ def get_operator() -> str:
     return usr_operator
 
 
-def calculation(operand_a, operand_b, akt_operator) -> Union[int, float]:
+def calculation(operand_a: Typecalc, operand_b: Typecalc, akt_operator: str) -> Typecalc:
     """Function to perform calculation"""
+    calc_result = None
     if akt_operator == '+':
         calc_result = operand_a + operand_b
     elif akt_operator == '-':
@@ -74,8 +77,8 @@ if __name__ == '__main__':
     print_instruction()
     while True:
         print('----------------------------------------------------------')
-        oprnd_1 = get_operand(number=1)
-        oprnd_2 = get_operand(number=2)
+        oprnd_1 = get_operand(number='1')
+        oprnd_2 = get_operand(number='2')
         oprtr = get_operator()
         if oprnd_2 == '0' and oprtr == '/':
             print('Division by zero is prohibited.')
