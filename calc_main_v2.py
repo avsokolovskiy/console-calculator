@@ -13,7 +13,7 @@ def print_greetings() -> None:
 def print_instruction() -> None:
     """User manual function"""
     print('''
-    Instruction: 
+    Instruction:
         1. Just follow the console prompts.
         2. To separate decimal part please use "."
         3. To quit, please enter "Q" and hit enter at any time.
