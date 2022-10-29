@@ -94,14 +94,14 @@ class SimpleCalcTests(unittest.TestCase):
         # with self.assertRaises(ValueError) as context_manager:
         #    calc_main.get_operand(1)
         # self.assertEqual(ValueError, calc_main.get_operand, '1')
-        #pass
+        # pass
 
     @patch('builtins.input', lambda *args: NOT_VALID_OPRTR_ARG)
     def test_get_operator_not_valid_input(self) -> None:
         """Tests for not valid user input"""
-        #test_obj = calc_main.get_operator()
-        #self.assertNotEqual(NOT_VALID_OPRTR_ARG, test_obj)
-        #pass
+        # test_obj = calc_main.get_operator()
+        # self.assertNotEqual(NOT_VALID_OPRTR_ARG, test_obj)
+        # pass
 
     ##############
 

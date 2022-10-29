@@ -33,10 +33,14 @@ Tech stack: python 3, input()
 * Python 3.x is installed
 * Python executables are added to the system path.
 #### Installation & Execution
-* download main.py to your local PC, or clone repo.
+* download calc_main.py to your local PC, or clone repo.
 * open console in target folder 
 * execute command "python3 main.py"
 #### How to use
 * Just follow the console prompts.
 * To separate decimal part please use "."
 * To quit, please enter "Q" and hit enter at any time.
+#### How to execute unit tests
+* download calc_main.py and test_calc.py to your local PC, or clone repo.
+* open console in target folder 
+* execute command "python3 test_calc.py"
