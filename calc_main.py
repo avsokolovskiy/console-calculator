@@ -45,7 +45,7 @@ def get_operator() -> str:
         calc_stop(flag=usr_operator)
         if usr_operator in ('+', '-', '*', '/'):
             break
-        print(f'The operator is not supported.')
+        print('The operator is not supported.')
 
     return usr_operator
 

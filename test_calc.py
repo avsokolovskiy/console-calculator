@@ -1,6 +1,6 @@
 """Simple calculator unit tests"""
 import unittest
-from unittest.mock import patch, Mock
+from unittest.mock import patch
 import io
 from contextlib import redirect_stdout
 import calc_main
@@ -20,10 +20,18 @@ NOT_VALID_OPRND_ARG = 'AaaA'
 NOT_VALID_OPRTR_ARG = 'BBBB'
 OPRND_EXP_MSG = 'Not a number. Please enter a valid number.'
 OPRTR_EXP_MSG = 'The operator is not supported.'
-test_data_add = [[1, 2, 3], [-1, -2, -3], [-1, 2, 1], [1, 2.5, 3.5]]
-test_data_sub = [[1, 2, -1], [-1, -2, 1], [-1, 2, -3], [1, 2.5, -1.5]]
+ZERO_EXP_MSG = 'Division by zero is prohibited.'
+DECIMAL_3_ROUND = '2.226'
+test_data_add = [[1, 2, 3], [-1, -2, -3], [-1, 2, 1], [1, 2.5, 3.5], [2.5, 3.5, 6]]
+test_data_sub = [[1, 2, -1], [-1, -2, 1], [-1, 2, -3], [1, 2.5, -1.5], [2.5, 3.5, -1]]
 test_data_mult = [[2, 3, 6], [-2, -2, 4], [-2, 6, -12], [2.5, 2.5, 6.25]]
-test_data_dev = [[4, 2, 2], [5, 2, 2.5], [-10, -2, 5], [8, -2, -4], [0, 5, 0], [8, 3.2, 2.5]]
+test_data_dev = \
+    [[4, 2, 2], [5, 2, 2.5], [-10, -2, 5], [8, -2, -4], [0, 5, 0], [8, 3.2, 2.5], [3.5, 2.5, 1.4]]
+test_data_dev_exp = ['5', '0', '/', 'Q']
+test_data_dec_exp = ['5.23', '2.35', '/', 'Q']
+
+# pylint: disable=R0904
+# pylint: disable=W0613
 
 
 class SimpleCalcTests(unittest.TestCase):
@@ -44,7 +52,10 @@ class SimpleCalcTests(unittest.TestCase):
         print(f'The {self.id()} case is closed')
 
     def test_greetings(self) -> None:
-        """User greetings print test function"""
+        """
+        User greetings print test function
+        The user greeting is displayed after the run.
+        """
         captured_output = io.StringIO()
         with redirect_stdout(captured_output):
             calc_main.print_greetings()
@@ -52,7 +63,10 @@ class SimpleCalcTests(unittest.TestCase):
         self.assertEqual(MSG_GREETINGS, test_obj)
 
     def test_instructions(self) -> None:
-        """User manual print test function"""
+        """
+        User manual print test function
+        The instruction is displayed.
+        """
         captured_output = io.StringIO()
         with redirect_stdout(captured_output):
             calc_main.print_instruction()
@@ -66,7 +80,10 @@ class SimpleCalcTests(unittest.TestCase):
         self.assertEqual(QUIT_CODE, context_manager.exception.code)
 
     def test_farewell_msg(self) -> None:
-        """Farewell msg print test"""
+        """
+        Farewell msg print test
+        The user farewell is displayed on exit.
+        """
         captured_output = io.StringIO()
         with redirect_stdout(captured_output):
             with self.assertRaises(SystemExit):
@@ -102,7 +119,7 @@ class SimpleCalcTests(unittest.TestCase):
 
     @patch('builtins.input', side_effect=[NOT_VALID_OPRND_ARG, VALID_OPRND_ARG])
     def test_get_operand_not_valid_input(self, input_mock) -> None:
-        """Tests for not valid user input"""
+        """Tests for not valid user input in the operand prompt"""
         captured_output = io.StringIO()
         with redirect_stdout(captured_output):
             calc_main.get_operand('1')
@@ -111,7 +128,7 @@ class SimpleCalcTests(unittest.TestCase):
 
     @patch('builtins.input', side_effect=[NOT_VALID_OPRTR_ARG, VALID_OPRTR_ARG])
     def test_get_operator_not_valid_input2(self, input_mock) -> None:
-        """Tests for not valid user input"""
+        """Tests for not valid user input in the operator prompt"""
         captured_output = io.StringIO()
         with redirect_stdout(captured_output):
             calc_main.get_operator()
@@ -134,18 +151,31 @@ class SimpleCalcTests(unittest.TestCase):
         """Tests for division"""
         self.calc_verification(test_data=test_data_dev, test_operator='/')
 
-  #  @patch('builtins.input', side_effect=['5', '0', '/'])
-  #  @patch('builtins.input', lambda *args: '5')
-  #  @patch('builtins.input', lambda *args:'0')
-  #  @patch('builtins.input', lambda *args:'/')
-    def test_devision_by_0_raises_exeption(self,input_mock) -> None:
-        """Tests for division by zero"""
+    @patch('builtins.input', side_effect=test_data_dev_exp)
+    def test_devision_by_0_raises_exeption(self, input_mock) -> None:
+        """Tests for division by zero exception handling"""
         captured_output = io.StringIO()
         with redirect_stdout(captured_output):
-            calc_main.calc_execut()
+            try:
+                calc_main.calc_execut()
+            except SystemExit:
+                pass
             test_obj = captured_output.getvalue().strip()
-            #mock_method.call_count == 3
-        self.assertEqual(OPRTR_EXP_MSG, test_obj)
+            print(test_obj)
+        self.assertIn(ZERO_EXP_MSG, test_obj)
+
+    @patch('builtins.input', side_effect=test_data_dec_exp)
+    def test_3_decimal_rounding(self, input_mock) -> None:
+        """Tests for 3 decimals rounding"""
+        captured_output = io.StringIO()
+        with redirect_stdout(captured_output):
+            try:
+                calc_main.calc_execut()
+            except SystemExit:
+                pass
+            test_obj = captured_output.getvalue().strip()
+            print(test_obj)
+        self.assertIn(DECIMAL_3_ROUND, test_obj)
 
     def calc_verification(self, test_data, test_operator) -> None:
         """Method for verification execution"""
