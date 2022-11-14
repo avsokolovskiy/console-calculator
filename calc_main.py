@@ -13,7 +13,7 @@ def print_greetings() -> None:
 def print_instruction() -> None:
     """User manual function"""
     print('''
-    Instruction: 
+    Instruction:
         1. Just follow the console prompts.
         2. To separate decimal part please use "."
         3. To quit, please enter "Q" and hit enter at any time.
@@ -29,7 +29,7 @@ def get_operand(number: str) -> Typecalc:
         try:
             float(operand)
         except ValueError:
-            print('Not a number. Please enter a valid number')
+            print('Not a number. Please enter a valid number.')
         else:
             if operand.isdigit():
                 res_operand = int(operand)
@@ -45,8 +45,7 @@ def get_operator() -> str:
         calc_stop(flag=usr_operator)
         if usr_operator in ('+', '-', '*', '/'):
             break
-
-        print(f'The operator " {usr_operator} " is not supported')
+        print('The operator is not supported.')
 
     return usr_operator
 
@@ -69,19 +68,24 @@ def calc_stop(flag: str) -> None:
     """Function to exit calc"""
     if flag == "Q":
         print("Closing the simple calculator 1.0. See you!!!")
-        sys.exit()
+        sys.exit(1)
 
 
-if __name__ == '__main__':
-    print_greetings()
-    print_instruction()
+def calc_execut() -> None:
+    """Execute function"""
     while True:
         print('----------------------------------------------------------')
         oprnd_1 = get_operand(number='1')
         oprnd_2 = get_operand(number='2')
         oprtr = get_operator()
-        if oprnd_2 == '0' and oprtr == '/':
+        if oprnd_2 == 0 and oprtr == '/':
             print('Division by zero is prohibited.')
         else:
             result = round(calculation(operand_a=oprnd_1, operand_b=oprnd_2, akt_operator=oprtr), 3)
             print(f'{oprnd_1} {oprtr} {oprnd_2} = {result}')
+
+
+if __name__ == '__main__':
+    print_greetings()
+    print_instruction()
+    calc_execut()
